@@ -50,9 +50,6 @@ public class IntervalNode<T extends Comparable<T>> {
 	 * @return in-order successor node
 	 */
 	public IntervalNode<T> getSuccessor() {
-		if(leftNode == null){
-			return leftNode;
-		}
 		if(rightNode == null){
 			return null;
 		}
