@@ -4,8 +4,9 @@
 // FILE:             Interval.java
 //
 // TEAM:    46 paras
-// Authors: Daniel Jones
+// Authors: Daniel Jones Collin Lacy
 //////////////////////////// 80 columns wide //////////////////////////////////
+
 /**
  * This class defines the IntervalNode for the IntervalTree. This node has three
  * components: 1) interval - the data that we want to store in this node 2)
@@ -20,6 +21,7 @@
  */
 
 public class IntervalNode<T extends Comparable<T>> {
+	
 	// Interval stored in the node.
 	private IntervalADT<T> interval;
 
@@ -46,34 +48,35 @@ public class IntervalNode<T extends Comparable<T>> {
 	/**
 	 * Returns the next in-order successor of the BST. Hint: Return left-most
 	 * node in the right subtree. Return null if there is no rightNode.
-	 *
+	 * 
+	 * 1.) Start with the right child of the given node (make it the temporary current node)
+	 * 2.) If the current node has no left child, it is the next highest node.
+	 * 3.) If the current node has a left child, make it the current node.
+	 *    
 	 * @return in-order successor node
 	 */
 	public IntervalNode<T> getSuccessor() {
-		if(rightNode == null){
+		
+		//temporary node for traversal
+		IntervalNode<T> curr;
+		
+		//if there is no rightNode, return null
+		if (rightNode == null) {
 			return null;
 		}
-		if(rightNode.getRightSuccessor() == null){
-			return rightNode;
+		
+		//holds copy of right child of the given node
+		curr = rightNode;
+		
+		//traverse to the left most node 
+		while (curr.getLeftNode() != null) {
+			curr = curr.getLeftNode();
 		}
-		return rightNode.getRightSuccessor();
+		
+		//if the current node has no left child, it is the next highest node (successor)
+		return curr;
 	}
 	
-	/**
-	 * Helper method that will find the left-most node of the right sub tree
-	 *
-	 * @return left most node of a sub tree
-	 */
-	private IntervalNode<T> getRightSuccessor() {
-		if(leftNode == null){ //If there is no left node
-			return null; //Signal which will tell receiver to use this node
-		}
-		if(leftNode.getRightSuccessor() == null){ //If leftNode is left-most
-			return leftNode;
-		}
-		return leftNode.getRightSuccessor(); //Recursion to find more lefts
-	}
-
 	/**
 	 * Returns the interval associated with the node.
 	 * 
