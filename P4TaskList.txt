@@ -1,0 +1,13 @@
+=======================TASK LIST=======================
+
+NOTE: IntervalTreeMain is already completed for us.
+
+[1]-Interval.java
+    -Implements IntervalADT.
+[2]-IntervalTree.java
+    -This is a variation of the Binary Search Tree
+    -Implements IntervalTreeADT
+[3]-IntervalNode.java
+    -getter methods
+    -setter methods
+    -getSuccessor() method
