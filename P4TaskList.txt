@@ -2,12 +2,12 @@
 
 NOTE: IntervalTreeMain is already completed for us.
 
-[1]-Interval.java
-    -Implements IntervalADT.
+[1]DJ CL+Interval.java
+   DJ CL +Implements IntervalADT.
 [2]-IntervalTree.java
     -This is a variation of the Binary Search Tree
     -Implements IntervalTreeADT
-[3]-IntervalNode.java
-    -getter methods
-    -setter methods
-    -getSuccessor() method
+[3]+IntervalNode.java
+   DJ CL+getter methods
+   DJ CL+setter methods
+    CL+getSuccessor() method
