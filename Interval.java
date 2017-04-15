@@ -4,7 +4,7 @@
 // FILE:             Interval.java
 //
 // TEAM:    46 paras
-// Authors: Daniel Jones Collin Lacy
+// Authors: Daniel Jones Collin Lacy Yuchen Bai
 //////////////////////////// 80 columns wide //////////////////////////////////
 
 /**
@@ -126,5 +126,10 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 			return start.compareTo(other.getStart());
 		}
 		return end.compareTo(other.getEnd()); 
+	}
+	
+	@Override
+	public String toString(){
+		 return label+ " [" + start + ", " + end + "]";
 	}
 }
