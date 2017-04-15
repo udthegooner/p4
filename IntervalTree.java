@@ -196,21 +196,28 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getSize() {
-		return size;
+		return getSizeHelper(root);
+	}
+
+	private int getSizeHelper(IntervalNode<T> node){
+		if(node==null) return 0;
+		else{
+			return getSizeHelper(node.getLeftNode()) + getSizeHelper(node.getRightNode()) + 1;
+		}
 	}
 
 	@Override
 	public int getHeight() {
 		return getHeightHelper(root);
 	}
-	
+
 	private int getHeightHelper(IntervalNode<T> n) {
-		
+
 		// Check if the node is null
 		if (n == null) {
-			return -1;
+			return 0;
 		}
-		
+
 		// If not, return the max height of its children.
 		return Math.max(getHeightHelper(n.getLeftNode()), getHeightHelper(n.getRightNode())) + 1;
 	}
@@ -223,8 +230,11 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 	
 	private boolean containsHelper(IntervalADT<T> interval, IntervalNode<T> n) throws IllegalArgumentException {
+
 		if (interval == null) throw new IllegalArgumentException();
-		
+
+		if(n==null) return false;
+
 		if (interval.compareTo(n.getInterval()) == 0) {
 			return true;
 		}
@@ -240,10 +250,9 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public void printStats() {
 		System.out.println("-----------------------------------------");
-		System.out.println("Height: " + height);
-		System.out.println("Size: " + size);
+		System.out.println("Height: " + getHeight());
+		System.out.println("Size: " + getSize());
 		System.out.println("-----------------------------------------");
-
 	}
 
 }
