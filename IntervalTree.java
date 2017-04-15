@@ -1,11 +1,3 @@
-/////////////////////////////////////////////////////////////////////////////
-// Semester:         CS367 Spring 2016 
-// PROJECT:          p4
-// FILE:             Interval.java
-//
-// TEAM:    46 paras
-// Authors: Yuchen Bai, Matt Perry
-//////////////////////////// 80 columns wide //////////////////////////////////
 import java.util.List;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
@@ -32,103 +24,78 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public void insert(IntervalADT<T> interval) throws IllegalArgumentException {
 
-		// If no nodes have been added, then add at the root
-		if (root == null) {
-			root = new IntervalNode<T> (interval);
-		}
-
-		// Otherwise, use the helper method to add a new node
-		else {
-			addNode(interval, root);
-			size++;
-		}
-
+		root = insertHelper(root,interval);
+		root.setMaxEnd(root.getMaxEnd());
 	}
 
-	// Recursively compares nodes to check if they have a matching interval.
-	private boolean addNode(IntervalADT<T> interval, IntervalNode<T> n) throws IllegalArgumentException {
-		if (contains(interval)) {
-			throw new IllegalArgumentException();
-		}
 
-		// Check if we are going left and whether there is a node to compare
-		// there.
-		// if not, add a node with the given interval.
-		else if (interval.compareTo(n.getInterval()) < 0) {
-			if (n.getLeftNode() == null) {
-				n.setLeftNode(new IntervalNode<T> (interval));
-				return true;
-			} else {
-				return addNode(interval, n.getLeftNode());
-			}
+	private IntervalNode<T> insertHelper(IntervalNode<T> node, IntervalADT<T> interval){
+		IntervalNode<T> end;
+		if(node == null) return new IntervalNode<T> (interval);
+		if(node.getInterval().equals(interval) || interval == null) throw new IllegalArgumentException();
+		if(interval.compareTo(node.getInterval())<0){
+			//add interval to the left subtree
+			node.setLeftNode(insertHelper(node.getLeftNode(),interval));
 		}
-
-		// Check if we are going right and whether there is a node to compare
-		// there.
-		// if not, add a node with the given interval.
-		else if (interval.compareTo(n.getInterval()) > 0) {
-			if (n.getRightNode() == null) {
-				n.setRightNode(new IntervalNode<T> (interval));
-				return true;
-			} else {
-				return addNode(interval, n.getRightNode());
-			}
+		else{
+			//add interval to the right subtree
+			node.setRightNode(insertHelper(node.getRightNode(),interval));
 		}
-
-		return false;
+		end = node;
+		return node;
 	}
 
 	@Override
-	 public void delete(IntervalADT<T> interval)
-	     throws IntervalNotFoundException, IllegalArgumentException {
-	  
-	  root = deleteHelper(root, interval); 
+	public void delete(IntervalADT<T> interval)
+			throws IntervalNotFoundException, IllegalArgumentException {
 
-	 }
+		root = deleteHelper(root, interval); 
 
-	 @Override
-	 public IntervalNode<T> deleteHelper(IntervalNode<T> node, IntervalADT<T> interval)
-	     throws IntervalNotFoundException, IllegalArgumentException {
-	  // check if exceptions are thrown
-	   if (interval == null)
-	   throw new IllegalArgumentException();
-	
-	  if (!contains(interval)|| node == null)
-	   throw new IntervalNotFoundException(interval.toString());
-	  
-	  if (node.getInterval() == interval){
-	   
-	   if (node.getLeftNode() == null&& node.getRightNode() == null){
-	    return null;
-	   }
-	   
-	   else if(node.getRightNode() != null){
-	    node = node.getSuccessor();
-	    node.setRightNode(deleteHelper(node.getSuccessor(),interval));
-	    node.setMaxEnd(recalculateMaxEnd(node));
-	   }
-	   else {
-	    return node.getLeftNode();
-	   }
-	  }
-	  //If interval is in the left subtree
-	  if (interval.compareTo(node.getInterval()) < 0){
-	   node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
-	   node.setMaxEnd(recalculateMaxEnd(node));
-	  }
-	  // If interval is in the right subtree
-	  else{
-	   node.setRightNode(deleteHelper(node.getRightNode(), interval));
-	   node.setMaxEnd(recalculateMaxEnd(node));
-	  }
-	  
-	  return node;
-	 }
-	 
-	 private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
-	  
-	  return null;
-	 }
+	}
+
+	@Override
+	public IntervalNode<T> deleteHelper(IntervalNode<T> node, IntervalADT<T> interval)
+			throws IntervalNotFoundException, IllegalArgumentException {
+		// check if exceptions are thrown
+		if (interval == null)
+			throw new IllegalArgumentException();
+
+		if (!contains(interval)|| node == null)
+			throw new IntervalNotFoundException(interval.toString());
+
+		if (node.getInterval() == interval){
+
+			if (node.getLeftNode() == null&& node.getRightNode() == null){
+				return null;
+			}
+
+			else if(node.getRightNode() != null){
+				node = node.getSuccessor();
+				node.setRightNode(deleteHelper(node.getSuccessor(),interval));
+				node.setMaxEnd(recalculateMaxEnd(node));
+			}
+			else {
+				return node.getLeftNode();
+			}
+		}
+		//If interval is in the left subtree
+		if (interval.compareTo(node.getInterval()) < 0){
+			node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
+			node.setMaxEnd(recalculateMaxEnd(node));
+		}
+		// If interval is in the right subtree
+		else{
+			node.setRightNode(deleteHelper(node.getRightNode(), interval));
+			node.setMaxEnd(recalculateMaxEnd(node));
+		}
+
+		return node;
+	}
+
+	private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
+
+		return null;
+	}
 
 	@Override
 	public List<IntervalADT<T>> findOverlapping(IntervalADT<T> interval) {
@@ -158,40 +125,41 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (interval.compareTo(n.getInterval()) > 0) {
 			return findOverHelper(interval, n.getRightNode(), list);
 		}
-		
+
 		return list;
 
 	}
 
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
-		
+
 		// Stores matching intervals
 		List<IntervalADT<T>> list = null;
-		
+
 		// Calls our helper method.
 		return searchPointHelper(point, root, list);
-		
+
 	}
-	
+
 	private List<IntervalADT<T>> searchPointHelper(T point, IntervalNode<T> n, List<IntervalADT<T>> list) {
-		
+
 		if (n.getInterval().contains(point)) {
 			list.add(n.getInterval());
 		}
-		
+
+
 		// If our point is less than the start of the interval, go left.
 		if (point.compareTo(n.getInterval().getStart()) < 0) {
 			return searchPointHelper(point, n.getLeftNode(), list);
 		}
-		
+
 		// If our point is greater than the start of the interval, go right.
 		if (point.compareTo(n.getInterval().getStart())> 0) {
 			return searchPointHelper(point, n.getRightNode(), list);
 		}
-		
+
 		return list;
-		
+
 	}
 
 	@Override
@@ -220,15 +188,17 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 		// If not, return the max height of its children.
 		return Math.max(getHeightHelper(n.getLeftNode()), getHeightHelper(n.getRightNode())) + 1;
+
+
 	}
 
 	@Override
 	public boolean contains(IntervalADT<T> interval)  {
-		
+
 		return containsHelper(interval, root);
-		
+
 	}
-	
+
 	private boolean containsHelper(IntervalADT<T> interval, IntervalNode<T> n) throws IllegalArgumentException {
 
 		if (interval == null) throw new IllegalArgumentException();
@@ -254,5 +224,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		System.out.println("Size: " + getSize());
 		System.out.println("-----------------------------------------");
 	}
+
 
 }
