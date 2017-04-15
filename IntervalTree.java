@@ -1,3 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2016 
+// PROJECT:          p4
+// FILE:             Interval.java
+//
+// TEAM:    46 paras
+// Authors: Yuchen Bai Matt Perry
+//////////////////////////// 80 columns wide //////////////////////////////////
 import java.util.List;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
@@ -30,9 +38,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 
 	private IntervalNode<T> insertHelper(IntervalNode<T> node, IntervalADT<T> interval){
-		IntervalNode<T> end;
 		if(node == null) return new IntervalNode<T> (interval);
 		if(node.getInterval().equals(interval) || interval == null) throw new IllegalArgumentException();
+		//change the maxend
+		if(node.getMaxEnd().compareTo(interval.getEnd())<0){
+			node.setMaxEnd(interval.getEnd());
+		}
 		if(interval.compareTo(node.getInterval())<0){
 			//add interval to the left subtree
 			node.setLeftNode(insertHelper(node.getLeftNode(),interval));
@@ -41,7 +52,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			//add interval to the right subtree
 			node.setRightNode(insertHelper(node.getRightNode(),interval));
 		}
-		end = node;
 		return node;
 	}
 
