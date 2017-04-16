@@ -200,7 +200,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			
 		if(nodeToRecalculate.getRightNode() != null) {	
 			if(nodeToRecalculate.getRightNode().getMaxEnd().compareTo(newMaxEnd) > 0) {
-				newMaxEnd = nodeToRecalculate.getRightNode().getMaxEnd;
+				newMaxEnd = nodeToRecalculate.getRightNode().getMaxEnd();
 				}
 			}
 		nodeToRecalculate.setMaxEnd(newMaxEnd);
