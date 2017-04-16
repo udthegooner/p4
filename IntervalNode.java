@@ -43,6 +43,8 @@ public class IntervalNode<T extends Comparable<T>> {
 	public IntervalNode(IntervalADT<T> interval) {
 		this.interval = interval;
 		maxEnd = interval.getEnd();
+		leftNode = null;
+		rightNode = null;
 	}
 
 	/**
