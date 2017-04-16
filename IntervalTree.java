@@ -191,19 +191,16 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
 		T newMaxEnd = nodeToRecalculate.getInterval().getEnd();
-		IntervalNode<T> traceNode;
 		
 		if(nodeToRecalculate.getLeftNode() != null){
-			if(nodeToRecalculate.getLeftNode().getInterval().getEnd().compareTo( 
-				nodeToRecalculate.getInterval().getEnd()) > 0) {
-				newMaxEnd = nodeToRecalculate.getLeftNode().getInterval().getEnd();
+			if(nodeToRecalculate.getLeftNode().getInterval().getEnd().compareTo(newMaxEnd) > 0) {
+				newMaxEnd = nodeToRecalculate.getLeftNode().getMaxEnd();
 			}
 		}
 			
 		if(nodeToRecalculate.getRightNode() != null) {	
-			if(nodeToRecalculate.getRightNode().getInterval().getEnd().compareTo( 
-				nodeToRecalculate.getInterval().getEnd()) > 0) {
-				newMaxEnd = nodeToRecalculate.getRightNode().getInterval().getEnd();
+			if(nodeToRecalculate.getRightNode().getMaxEnd().compareTo(newMaxEnd) > 0) {
+				newMaxEnd = nodeToRecalculate.getRightNode().getMaxEnd;
 				}
 			}
 		nodeToRecalculate.setMaxEnd(newMaxEnd);
