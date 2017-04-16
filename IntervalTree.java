@@ -190,19 +190,24 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 
 	private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
+		T newMaxEnd = nodeToRecalculate.getInterval().getEnd();
+		IntervalNode<T> traceNode;
 		
-		
-		if (nodeToRecalculate.getLeftNode().getMaxEnd().compareTo(nodeToRecalculate.getMaxEnd()) > 0) {
-			 nodeToRecalculate.setMaxEnd(nodeToRecalculate.getLeftNode().getMaxEnd());
+		if(nodeToRecalculate.getLeftNode() != null){
+			if(nodeToRecalculate.getLeftNode().getInterval().getEnd().compareTo( 
+				nodeToRecalculate.getInterval().getEnd()) > 0) {
+				newMaxEnd = nodeToRecalculate.getLeftNode().getInterval().getEnd();
+			}
 		}
-		
-		if (nodeToRecalculate.getRightNode().getMaxEnd().compareTo(nodeToRecalculate.getMaxEnd()) < 0) {
-			nodeToRecalculate.setMaxEnd(nodeToRecalculate.getRightNode().getMaxEnd());
-		}
-		
-		return nodeToRecalculate.getMaxEnd();
-
-	}
+			
+		if(nodeToRecalculate.getRightNode() != null) {	
+			if(nodeToRecalculate.getRightNode().getInterval().getEnd().compareTo( 
+				nodeToRecalculate.getInterval().getEnd()) > 0) {
+				newMaxEnd = nodeToRecalculate.getRightNode().getInterval().getEnd();
+				}
+			}
+		nodeToRecalculate.setMaxEnd(newMaxEnd);
+		return newMaxEnd;
 
 	@Override
 	public List<IntervalADT<T>> findOverlapping(IntervalADT<T> interval) {
