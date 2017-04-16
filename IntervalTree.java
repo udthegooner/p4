@@ -170,14 +170,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public int getHeight() {
-		return getHeightHelper(root) - 1;
+		return getHeightHelper(root);
 	}
 
 	private int getHeightHelper(IntervalNode<T> n) {
 		if (n == null) return 0;
-		if (n.getLeftNode() == null && n.getRightNode() == null) return 1;
-		else
-		return Math.max(getHeightHelper(n.getLeftNode()), getHeightHelper(n.getRightNode()) + 1);
+		else return 1 + Math.max(getHeightHelper(n.getLeftNode()), getHeightHelper(n.getRightNode()));
 	}
 
 	@Override
