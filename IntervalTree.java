@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 
-	private IntervalNode<T> root;
-	private int size;
-	private int height;
+	private IntervalNode<T> root; //root of the tree
+	private int size; //number of nodes in the tree
+	private int height; //number of nodes in the longest path from the root
 
 	/**
 	 * This is the constructor for the IntervalTree, it sets root to null and
@@ -65,6 +65,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		
 		if(node == null ) return new IntervalNode<T> (interval);
 		
+		//if interval already exists
 		if(node.getInterval().compareTo(interval) == 0) throw new IllegalArgumentException();
 		
 		//change the maxend
