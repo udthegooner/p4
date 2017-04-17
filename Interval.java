@@ -104,10 +104,10 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 	 */
 	@Override
 	public boolean contains(T point) {
-		if (end.compareTo(point) > 0 && start.compareTo(point) < 1) {
-			return true;
+		if (start.compareTo(point) > 0 || end.compareTo(point) < 0) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**
