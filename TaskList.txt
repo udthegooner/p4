@@ -1,0 +1,70 @@
+__________________   _______                          _____                
+___  __ \__  ____/   __  __ \__   ________________   ____(_)_______      __
+__  /_/ /_____ \     _  / / /_ | / /  _ \_  ___/_ | / /_  /_  _ \_ | /| / /
+_  ____/ ____/ /     / /_/ /__ |/ //  __/  /   __ |/ /_  / /  __/_ |/ |/ / 
+/_/     /_____/      \____/ _____/ \___//_/    _____/ /_/  \___/____/|__/  
+
+BACKGROUND: We're making a simple Navigation app.  Think of locations as vertices and 
+roads as edges.  Djikstra's algorithm is used to find the shortest path.  Those edges
+can hold mutliple weights (i.e. length, travel time, tolls) but the user will only 
+specify one value at a time (i.e. shortest route or shortest travel time).
+
+________             ______      ___________       _____ 
+___  __/_____ __________  /__    ___  /___(_)________  /_
+__  /  _  __ `/_  ___/_  //_/    __  / __  /__  ___/  __/
+_  /   / /_/ /_(__  )_  ,<       _  /___  / _(__  )/ /_  
+/_/    \__,_/ /____/ /_/|_|      /_____/_/  /____/ \__/  
+
+-Implement NavigationGraph.java
+-Implement MapApp.java
+
+_____________                                                        _____                
+__  ____/__  /_____ _______________   _________   ________________   ____(_)_______      __
+_  /    __  /_  __ `/_  ___/_  ___/   _  __ \_ | / /  _ \_  ___/_ | / /_  /_  _ \_ | /| / /
+/ /___  _  / / /_/ /_(__  )_(__  )    / /_/ /_ |/ //  __/  /   __ |/ /_  / /  __/_ |/ |/ / 
+\____/  /_/  \__,_/ /____/ /____/     \____/_____/ \___//_/    _____/ /_/  \___/____/|__/  
+
+MAIN CLASS: MapApp.java
+-This class first reads in edge information and builds a representation of that info.
+-Input File Format is given on course site.
+
+ALL CLASSES:
+(More in depth info is available on the website).
+
+--Location.java--
+Identifies a location object by case-insensitive name.
+
+--Path.java--
+Represents a directed edge between two locations (road).  It has a list of properties, each
+of type double.  Number of properties is fixed for a given graph instance and can be derived
+from the graph's constructor.
+
+--GraphADT.java--
+Generic interface to represent a graph.  Contains methods to add vertices and edges.
+
+--NavigationGraph.java--
+MOST IMPORTANT CLASS.
+-Web page recommends we use the GraphNode class to represent an Adjacency List representation of
+the graph.  
+-This class implements GraphADT to create a graph of locations joined by paths.
+-Constructor must accept an array of String property names (i.e. Time, Cost) that correspond to
+edge properties.
+-Navigation class MUST contain the following:
+    public Location getLocationByName(String name)
+
+--GraphNode.java--
+-A possible representation of the graph is as a group of GraphNodes.  Website suggests a class
+GraphNode<V,E> which would be a class that wraps a vertex object (class V) and a List<E> that 
+stores OUT edges from that vertex.
+-Graph itself can be represented as any of Java's built-in collection types for the collection
+of GraphNodes.  (Consider List, Set, HashMap, etc...).
+-So Graph conatins a PRIVATE list of GraphNodes:
+    List<GraphNode<Lovation, Path>>
+
+--MapApp.java--
+-This is the main class.
+-We need to read/parse the input filename passed as a command line argument and create a NavigationGraph
+object.
+
+--InvalidFileException--
+-Just a custom error to be thrown when the input file format is invalid.  Do no modify.
